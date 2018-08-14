@@ -34,8 +34,6 @@ router.post("/register", (req, res) => {
       //being used to encrypt the password.
       bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(newUser.password, salt, (err, hash) => {
-          //UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). (rejection id: 1)
-          //   if (err) throw err;
           newUser.password = hash;
           newUser
             .save()
@@ -44,6 +42,34 @@ router.post("/register", (req, res) => {
         });
       });
     }
+  });
+});
+
+//@route POST api/users/login
+//@desc Handles login of user
+//@access public
+router.post("/login", (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+
+  //Find user by email
+  //Note: findOne({email : email}) is similar to findOne({email})
+  User.findOne({ email }).then(user => {
+    if (!user) {
+      return res.status(404).json({ email: "User Not found" });
+    }
+
+    //Check Password using bcrypt as we are getting plain password
+    bcrypt
+      .compare(password, user.password)
+      //compare return true/false.
+      .then(isMatch => {
+        if (isMatch) {
+          res.json({ msg: "success" });
+        } else {
+          res.status(404).json({ password: "password incorrect" });
+        }
+      });
   });
 });
 
