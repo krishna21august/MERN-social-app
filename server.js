@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+const passport = require("passport");
 
 //Require route files
 const users = require("./routes/api/users");
@@ -25,7 +26,11 @@ mongoose
   .then(() => console.log("DB connected"))
   .catch(err => console.log(err));
 
-app.get("/", (req, res) => res.send("Hello"));
+//passport middleware
+app.use(passport.initialize());
+
+//passport config
+require("./config/passport")(passport);
 
 //use Routes
 //when you will make request to localhost:5000/api/users/test the test router/get or router/post ex. router.get('/test') will be called since we have already defined to call this file using app.use
