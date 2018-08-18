@@ -7,15 +7,19 @@ const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
 const passport = require("passport");
 
-//@route GET api/users/test
-//@desc tests users route
-//@access public
-router.get("/test", (req, res) => res.json({ msg: "users works" }));
+//Load input validation
+const validateRegisterInput = require("../../validation/register");
+const validateLoginInput = require("../../validation/login");
 
 //@route POST api/users/register
 //@desc Handles registration of user
 //@access public
 router.post("/register", (req, res) => {
+  const { errors, isValid } = validateRegisterInput(req.body);
+
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
   //Check if the email already exists in mongo database.
   User.findOne({ email: req.body.email }).then(user => {
     if (user) {
@@ -52,6 +56,12 @@ router.post("/register", (req, res) => {
 //@desc Handles login of user
 //@access public
 router.post("/login", (req, res) => {
+  const { errors, isValid } = validateLoginInput(req.body);
+
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+
   const email = req.body.email;
   const password = req.body.password;
 
@@ -59,7 +69,8 @@ router.post("/login", (req, res) => {
   //Note: findOne({email : email}) is similar to findOne({email})
   User.findOne({ email }).then(user => {
     if (!user) {
-      return res.status(404).json({ email: "User Not found" });
+      errors.email = "User Not Found";
+      return res.status(404).json(errors);
     }
 
     //Check Password using bcrypt as we are getting plain password
@@ -85,7 +96,8 @@ router.post("/login", (req, res) => {
             }
           );
         } else {
-          res.status(404).json({ password: "password incorrect" });
+          errors.password = "Password incorrect";
+          res.status(404).json(errors);
         }
       });
   });
