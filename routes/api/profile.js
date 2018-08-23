@@ -8,6 +8,8 @@ const Profile = require("../../models/Profile");
 const User = require("../../models/User");
 
 const validateProfileInput = require("../../validation/profile");
+const validateExperienceInput = require("../../validation/experience");
+const validateEducationInput = require("../../validation/education");
 
 //@route GET api/profile/
 //@desc get current user profile
@@ -146,6 +148,68 @@ router.post(
           new Profile(profileFields).save().then(profile => res.json(profile));
         });
       }
+    });
+  }
+);
+
+//@route POST api/profile/experience
+//@desc Add experience to profile
+//@access private
+
+router.post(
+  "/experience",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const { errors, isValid } = validateExperienceInput(req.body);
+    if (!isValid) {
+      res.status(404).json(errors);
+    }
+    Profile.findOne({ user: req.user.id }).then(profile => {
+      const newExp = {
+        title: req.body.title,
+        company: req.body.company,
+        location: req.body.location,
+        from: req.body.from,
+        to: req.body.to,
+        current: req.body.current,
+        description: req.body.description
+      };
+
+      //Add to profile experience array returned by findone method.
+      //instead of push ,unshift used to put object at beginning of array
+      profile.experience.unshift(newExp);
+      profile.save().then(profile => res.json(profile));
+    });
+  }
+);
+
+//@route POST api/profile/experience
+//@desc Add experience to profile
+//@access private
+
+router.post(
+  "/education",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const { errors, isValid } = validateEducationInput(req.body);
+    if (!isValid) {
+      res.status(404).json(errors);
+    }
+    Profile.findOne({ user: req.user.id }).then(profile => {
+      const newEdu = {
+        school: req.body.school,
+        degree: req.body.degree,
+        fieldofstudy: req.body.fieldofstudy,
+        from: req.body.from,
+        to: req.body.to,
+        current: req.body.current,
+        description: req.body.description
+      };
+
+      //Add to profile experience array returned by findone method.
+      //instead of push ,unshift used to put object at beginning of array
+      profile.education.unshift(newEdu);
+      profile.save().then(profile => res.json(profile));
     });
   }
 );
