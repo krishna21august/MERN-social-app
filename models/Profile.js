@@ -26,7 +26,7 @@ const ProfileSchema = new Schema({
     type: String,
     required: true
   },
-  slills: {
+  skills: {
     type: [String],
     required: true
   },
