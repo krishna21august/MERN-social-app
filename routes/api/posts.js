@@ -186,4 +186,36 @@ router.post(
   }
 );
 
+/*we will be needing the post id as well as the comment id to be deleted Here.*/
+//@route DELETE api/posts/comment/:id/:comment_id
+//@desc  delete comment on Posts
+//@access private
+
+router.delete(
+  "/comment/:id/:comment_id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Post.findById(req.params.id)
+      .then(post => {
+        //check if the comment exists for the post
+        if (
+          post.comments.filter(
+            comment => comment._id.toString() === req.params.comment_id
+          ).length == 0
+        ) {
+          return res.status(404).json({ commentNotFound: "No comment found" });
+        }
+
+        //get remove index of comment using (1d array.indexOf(id)
+        const removeIndex = post.comments
+          .map(comment => comment._id.toString())
+          .indexOf(req.params.comment_id);
+
+        post.comments.splice(removeIndex, 1);
+        post.save().then(post => res.json(post));
+      })
+      .catch(err => res.status(404).json({ postnotfound: "No post found" }));
+  }
+);
+
 module.exports = router;
