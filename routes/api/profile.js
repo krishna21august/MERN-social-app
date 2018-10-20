@@ -135,7 +135,9 @@ router.post(
           { user: req.user.id },
           { $set: profileFields },
           { new: true }
-        ).then(profile => res.json(profile));
+        )
+          .then(profile => res.json(profile))
+          .catch(err => res.status(400).json(err));
       } else {
         //create the profile
         Profile.findOne({ handle: profileFields.handle }).then(profile => {
@@ -145,7 +147,10 @@ router.post(
           }
 
           //Save New profile
-          new Profile(profileFields).save().then(profile => res.json(profile));
+          new Profile(profileFields)
+            .save()
+            .then(profile => res.json(profile))
+            .catch(err => res.status(400).json({ msg: "error" }));
         });
       }
     });
