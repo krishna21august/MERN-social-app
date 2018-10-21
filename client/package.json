@@ -9,6 +9,7 @@
     "jwt-decode": "^2.2.0",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
+    "react-moment": "^0.8.2",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.0.4",
