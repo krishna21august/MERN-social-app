@@ -1,9 +1,8 @@
-import React from "react";
-import classnames from "classnames";
-import PropTypes from "prop-types";
+import React from 'react';
+import classnames from 'classnames';
+import PropTypes from 'prop-types';
 
 const SelectListGroup = ({ name, value, error, info, onChange, options }) => {
-  //map is being used do operation.i.e to make options of select.
   const selectOptions = options.map(option => (
     <option key={option.label} value={option.value}>
       {option.label}
@@ -12,8 +11,8 @@ const SelectListGroup = ({ name, value, error, info, onChange, options }) => {
   return (
     <div className="form-group">
       <select
-        className={classnames("form-control form-control-lg", {
-          "is-invalid": error
+        className={classnames('form-control form-control-lg', {
+          'is-invalid': error
         })}
         name={name}
         value={value}
@@ -30,9 +29,9 @@ const SelectListGroup = ({ name, value, error, info, onChange, options }) => {
 SelectListGroup.propTypes = {
   name: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
   info: PropTypes.string,
   error: PropTypes.string,
+  onChange: PropTypes.func.isRequired,
   options: PropTypes.array.isRequired
 };
 
