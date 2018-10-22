@@ -34,7 +34,7 @@ class ProfileHeader extends Component {
                     href={profile.website}
                     target="_blank"
                   >
-                    <i className="fas fa-globe fa-2x" />
+                    <i className="fa fa-globe fa-2x" />
                   </a>
                 )}
 
