@@ -18,14 +18,18 @@ class Profile extends Component {
   render() {
     return (
       <div>
-        <h1>Profile </h1>
+        <ProfileHeader />
+        <ProfileCreds />
+        <ProfileGithub />
+        <ProfileAbout />
       </div>
     );
   }
 }
 
 Profile.propTypes = {
-  profile: PropTypes.object.isRequired
+  profile: PropTypes.object.isRequired,
+  getProfileByHandle: PropTypes.func.isRequired
 };
 const mapStateToProps = state => ({
   profile: state.profile
