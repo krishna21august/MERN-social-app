@@ -59,7 +59,10 @@ router.post(
       avatar: req.body.avatar,
       user: req.user.id
     });
-    newPost.save().then(post => res.json(post));
+    newPost
+      .save()
+      .then(post => res.json(post))
+      .catch(err => res.status(400).json({ error: "there is error" }));
   }
 );
 
