@@ -2,6 +2,6 @@
 If you require this module then you have to export module using module.exports*/
 
 module.exports = {
-  mongoURI: process.env.MONGO_URI,
-  secretOrKey: process.env.SECRET_OR_KEY
+  mongoURI: "mongodb://krishna:krishna123@ds215172.mlab.com:15172/merndb",
+  secretOrKey: "secret"
 };
