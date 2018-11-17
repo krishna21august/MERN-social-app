@@ -21,6 +21,7 @@ import Profiles from "./components/profiles/Profiles";
 import Profile from "./components/profile/Profile";
 import Posts from "./components/posts/Posts";
 import Post from "./components/post/Post";
+// import { connect } from "./api";
 
 import "./App.css";
 
@@ -46,6 +47,12 @@ if (localStorage.jwtToken) {
   }
 }
 class App extends Component {
+  // constructor(props) {
+  //   super(props);
+  //   connect(message => {
+  //     console.log(message);
+  //   });
+  // }
   render() {
     return (
       <Provider store={store}>

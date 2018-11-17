@@ -10,6 +10,8 @@ const posts = require("./routes/api/posts");
 const profile = require("./routes/api/profile");
 
 const app = express();
+// const server = require("http").createServer(app);
+// const io = require("socket.io")(server);
 
 //middleware for body parser
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -48,6 +50,12 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
   });
 }
+// io.set("origins", "*:*");
+// io.on("connection", async socket => {
+//   console.log("Client Successfully Connected");
+
+//   io.emit("chat", "hello world");
+// });
 
 const port = process.env.PORT || 5000;
 
